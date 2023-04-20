@@ -1,0 +1,194 @@
+git-github-basico
+
+Segue aqui o cumprimento do primeiro desafio do Bootcamp DIO, a respeito das noções básicas de GIT e GITHUB.
+Estas são minhas anotações quanto ao conteúdo das aulas sobre o tema.
+
+
+
+GIT E SUA IMPORTÂNCIA
+
+O que é Git?
+	Sistema de Versionamento de código distribuído
+	Ajuda a criar e monitorar diferentes versões de um código (controle de versão)
+	Permite o total controle sobre todas as versões de um código
+	Permite, através da criação de "branchs", alterações no código sem afetar o código fonte (main/master)
+	Permite a junção das alterações feitas em outras branchs na branch principal através do "merge"
+
+O que é GitHub?
+	Repositório on-line de códigos / Plataforma para hospedagem de códigos versionados no Git
+
+Quais os benefícios de aprender (e usar) Git e GitHub?
+1 - Controle de Versão
+2 - Armazenamento em Nuvem (proporcionado pelo GitHub)
+3 - Trabalho em equipe (favorecido pelo Git)
+4 - Melhorar seu código (por ser um repositório mundial, vários programadores podem ajudar a melhorar seu código)
+5 - Reconhecimento
+
+
+COMANDOS DE NAVEGAÇÃO
+- Git é um software CLI (Comand Line Interface). Não possui interface gráfica (GUI)
+- No Windows:
+	cd		-	Mudar de pasta
+	dir		-	Listar as pastas de um diretório
+	mkdir		-	Criar um diretório
+	del/rmdir	-	Deletar arquivos e diretórios (pastas)
+
+- No Linux:
+	cd		-	Mudar de pasta
+	ls		-	Listar as pastas de um diretório
+	mkdir		-	Criar um diretório
+	rm-rf		-	Deletar arquivos e diretórios (pastas)
+
+Na prática...
+
+Listar pastas:
+- Windows: dir + Enter
+- Linux: ls + Enter
+--- Todas as pastas do diretório serão visualizadas ---
+
+Navegar entre as pastas:
+- Windows/Linux: cd + / + Enter (ou) cd + ..
+--- Esse comando entra em uma pasta (cd /) ou retorna uma pasta (cd ..) ---
+
+Limpar a tela:
+- Windows: Digite cls + Enter
+- Linux: Digite clear + Enter (ou) atalho: Ctrl + L
+
+*** No Windows, a tecla Tab tem a função de auto completar algum comando ***
+
+Criar Diretórios (Pastas):
+- Windows/Linux: mkdir + nome da pasta + Enter
+
+Criar Arquivos:
+- Windows/Linux: echo + nome do arquivo + > + nome do arquivo.extensão (.txt, .pdf, .jpg, etc)
+--- O sinal > serve para indicar o redirecionamento do fluxo, para qual extensão o arquivo será criado ---
+
+Deletar Arquivos:
+- Windows: del + nome do arquivo + Enter
+--- No Windows, há diferença entre exclusão de diretórios e de arquivos, por isso são 2 comandos distintos. No Linux não há essa diferença ---
+
+Deletar Diretórios ou Repositórios:
+- Windows: rmdir + nome da pasta + / + S + / + Q + Enter
+- Linux: rm + espaço + r (recursivo (vai limpar todas as pastas contidas no repositório) + f (force: para não aparecer a mensagem de se deseja excluir realmente o repositório) + nome da pasta + Enter
+
+
+COMO O GIT FUNCIONA
+Sha-1: Algorítmo de Hash Seguro:
+- Conjunto de funções que encriptam dados
+- A cada encriptação, é gerado um conjunto de caracteres (chave) identificador de 40 dígitos
+- O arquivo é encriptado a cada alteração
+
+Objetos Fundamentais:
+Blobs: Bolhas
+- Representação binária do arquivo
+- Em sua estrutura, armazena o conteúdo do arquivo
+
+Trees: Árvores
+
+Commit:
+		
+
+Sistema Distribuído Seguro:
+- Um sistema que possui múltiplas cópias de si mesmo em diferentes locais. É seguro pois o Sha-1 garante que o arquivo e suas cópias possuem criptografia.
+
+
+CHAVES SSH E TOKENS
+Chave SSH:
+- Forma segura e encriptada de conectar 2 máquinas (máquina pessoal e remota (GitHub))
+- Contém 2 chaves (privada e pública)
+
+Como gerar chave SSH no Git Bash (terminal extendido para otimizar o uso do Git)?
+- Comando:
+	ssh - keygen -t ed25519 -c (seu e-mail)
+*** o ed25519 indica o tipo de criptografia ***
+
+Para achar o conteúdo da chave, buscamos na pasta através do comando:
+	cat id_ed25519 . pub
+* A chave pública pode (deve) ser inserida no GitHub *
+
+Após a geração da chave, seguir com o comando ssh - agent:
+	eval $(SSH - agent -s) + Enter
+o retorno deste comando será:
+	agent pid (sequencia de nrs aleatórios)
+
+Após, adicionar o agente à pasta com o comando:
+	ssh - add id_ed25519
+
+Clonar arquivos do GitHub com chave SSH:
+- No GitHub selecionar a clonagem via SSH
+- No Git, informar o comando:
+	git clone + a URL gerada pelo GitHub + Enter
+
+Token de acesso pessoal:
+- Outra forma segura de conectar 2 máquinas
+- Funcionamento:
+	Gera no GitHub em campo específico, anota o Token e o armazena na máquina pessoal. Ao utilizar o GitHub, será solicitado o Token gerado (não há como recuperar este Token).
+
+
+CICLO DE VIDA DOS ARQUIVOS NO GIT
+Comando:
+	- Git init: Cria um repositório .git no diretório desejado
+	- Git add: Deixa o arquivo na área Tracked (Rastreável) do Git e o encaminha para o status Staged (Preparado)
+		Há 3 status para um arquivo Tracked no Git:
+			Unmodified: Não modificado *
+			Modified: Modificado
+			Staged: Preparado para receber o Commit
+				* Quando um arquivo é modificado, ele automaticamente sai do status Unmodified e vai para Modified. Visto que a cada alteração o Sha-1 altera, o Git compara o Sha-1 do arquivo Unmodified e do Modified.
+
+	****Comando:
+		git add * (o asterisco indica que TODOS os arquivos devem ser adicionados)****
+
+	- Git commit: "Envelopa" os arquivos do Staged. Tira um "Snapshot" (fotografia) do estado atual dos arquivos.*
+		* Após um commit, o arquivo vai automaticamente para o status Unmodified.
+
+	****Comando:
+		git commit -m + "mensagem do commit" + Enter
+			O parâmetro "-m" indica que o commit deve levar uma mensagem. Esta deve descrever qual a ação executada nos arquivos.****
+
+Áreas de Trabalho:
+O Git possui 2 áreas:
+	Área de Desenvolvimento:
+		Working Area: área onde se localizam os arquivos nos status Untracked (não rastreado pelo Git), Unmodified e Modified
+		Staging Area: área onde se localizam os arquivos nos status Staged
+		Local Servidor: após o commit, os arquivos ficam disponíveis no repositório local (própria máquina) e estão prontos para serem "empurrados" ao servidor remoto
+
+	Área Remota:
+		Remote Servidor: área remota onde se armazenará os arquivos na nuvem (GitHub, GitLab, etc)
+
+
+PRIMEIROS PASSOS COM GITHUB
+Configurar, no Git, e-mail e nome do Autor:
+	git config --global user.e-mail + seu e-mail + Enter
+	git config --global user.name + seu nome + Enter
+
+Se for necessário alterar um nome ou e-mail já preenchidos anteriormente:
+	git config --list + Enter (Esse comando permite checar todas as configurações atualmente programadas, incluindo nome e e-mail)
+	git config --global --unset user.e-mail + Enter (Esse comando remove da lista de configurações o e-mail cadastrado)
+	git config --globa --unset user.name + Enter (Esse comando remove da lista de configurações o nome cadastrado)
+	Após isso, é só repetir o comando de cadastro de e-mail e nome já informado.
+
+
+Fazendo o Push para o GitHub
+- Crie e nomeie um novo repositório no GitHub
+- Siga o passo a passo de comandos que aparece no GitHub e os insira no Git
+
+Comandos:
+	git remote add origin + endereço URL do repositório do GitHub + Enter
+	git remote -v + Enter (lista todos os repositórios remotos cadastrados)
+	git push origin main ("empurra" o arquivo ao repositório desejado)
+
+CLONAR CÓDIGOS
+- No GitHub, clique no botão verde (Código). Copie a URL deste.
+- No Git, insira o comando:
+	git clone + URL copiada do GitHub + Enter
+
+	
+	
+
+
+
+
+
+
+
+
